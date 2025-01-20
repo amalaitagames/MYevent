@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {ScrollView, Text, View} from "react-native";
 import BottomNavBar from "./BottomNavBar";
 import {LinearGradient} from "expo-linear-gradient";
@@ -9,6 +9,7 @@ import CardXL from "../entities/CardXL";
 import CardS from "../entities/CardS";
 import {StatusBar} from "expo-status-bar";
 import {styles} from "../style/shared-styles";
+import Categories from "./Categories";
 
 export default function BookingComponent() {
     return (
@@ -24,21 +25,7 @@ export default function BookingComponent() {
                         <Text style={[styles.textSmall, styles.textFont]}>Bonjour, new user</Text>
                         <Text style={[styles.textXL, styles.textFont]}>Mes Réservations</Text>
                     </View>
-                    <ScrollView
-                        style={styles.scrollview}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.scrollContentContainer}>
-                        {
-                            getCategories().map((category, index) => {
-                                return (
-                                    <View key={index} style={styles.categoryContainer}>
-                                        <Text style={styles.category}>{category.label}</Text>
-                                    </View>
-                                )
-                            })
-                        }
-                    </ScrollView>
+                    <Categories></Categories>
                 </View>
                 <View style={styles.cardViewMainContainer}>
                     <Text style={styles.subTitleWeight}>Mes prochains évènements</Text>

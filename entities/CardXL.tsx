@@ -1,13 +1,30 @@
 import React from "react";
-import {aYEvents} from "./Yevents";
+import {aYEvents, makeEventDto} from "./Yevents";
 import colors from "../style/theme";
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Event from "../assets/event.svg";
 import Info from "../assets/info.svg";
 import moment from "moment";
+import {useNavigation} from "@react-navigation/native";
+
 
 export default function CardXL(yevent: aYEvents) {
+    const navigation = useNavigation();
     return (
+        <TouchableOpacity onPress={() => {
+            let eventDto = makeEventDto(yevent);
+            console.log("event", eventDto);
+            navigation.navigate("Reservation", {
+                label: eventDto.label,
+                date: eventDto.date,
+                image: eventDto.image,
+                categorie: eventDto.categorie,
+                description: eventDto.description,
+                lieu: eventDto.lieu,
+                id: eventDto.id,
+                placesRestantes: eventDto.placesRestantes
+            });
+        }}>
         <View style={cardStyle.cardContainer}>
             <View>
                 <Image source={{uri: yevent.image}} style={cardStyle.cardImage}></Image>
@@ -27,6 +44,7 @@ export default function CardXL(yevent: aYEvents) {
                 <Text style={cardStyle.eventLabel}>{yevent.type?.label}</Text>
             </View>
         </View>
+        </TouchableOpacity>
     )
 }
 

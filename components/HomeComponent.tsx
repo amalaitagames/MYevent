@@ -1,6 +1,5 @@
 import colors from "../style/theme";
-import {ScrollView, StyleSheet, Text, View} from "react-native";
-import getCategories from "../entities/YCategory";
+import {ScrollView, Text, View} from "react-native";
 import getEvents from "../entities/Yevents";
 import CardXL from "../entities/CardXL";
 import CardS from "../entities/CardS";
@@ -9,6 +8,7 @@ import {StatusBar} from "expo-status-bar";
 import BottomNavBar from "./BottomNavBar";
 import {LinearGradient} from "expo-linear-gradient";
 import {styles} from "../style/shared-styles";
+import Categories from "./Categories";
 
 
 export default function HomeComponent() {
@@ -24,21 +24,7 @@ export default function HomeComponent() {
                         <Text style={[styles.textSmall, styles.textFont]}>Hi, new user</Text>
                         <Text style={[styles.textXL, styles.textFont]}>Réserve ton {"\n"}prochain évènement</Text>
                     </View>
-                    <ScrollView
-                        style={styles.scrollview}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.scrollContentContainer}>
-                        {
-                            getCategories().map((category, index) => {
-                                return (
-                                    <View key={index} style={styles.categoryContainer}>
-                                        <Text style={styles.category}>{category.label}</Text>
-                                    </View>
-                                )
-                            })
-                        }
-                    </ScrollView>
+                    <Categories></Categories>
                 </View>
                 <View style={styles.cardViewMainContainer}>
                     <Text style={styles.subTitleWeight}>À la une</Text>
@@ -49,7 +35,13 @@ export default function HomeComponent() {
                     >
                         {getEvents().map((aYEvent, index) => {
                             return (
-                                <CardXL key={index} type={aYEvent.type!!} label={aYEvent.label} date={aYEvent.date}
+                                <CardXL key={index} type={aYEvent.type!!}
+                                        label={aYEvent.label}
+                                        id={aYEvent.id}
+                                        places={aYEvent.places}
+                                        lieu={aYEvent.lieu}
+                                        description={aYEvent.description}
+                                        date={aYEvent.date}
                                         image={aYEvent.image}></CardXL>
                             )
                         })}
@@ -67,8 +59,10 @@ export default function HomeComponent() {
                             if (aYEvent.date.getMonth() === actualMonth) {
                                 return (
                                     <CardS key={index} type={aYEvent.type!!} label={aYEvent.label}
-                                           date={aYEvent.date}
-                                           image={aYEvent.image}></CardS>
+                                           date={aYEvent.date} lieu={aYEvent.lieu}
+                                           image={aYEvent.image} places={aYEvent.places}
+                                           id={aYEvent.id} description={aYEvent.description}>
+                                    </CardS>
                                 )
                             }
                         })}
