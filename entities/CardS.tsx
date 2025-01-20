@@ -1,41 +1,41 @@
-import React from "react";
 import {aYEvents} from "./Yevents";
-import colors from "../style/theme";
 import {Image, StyleSheet, Text, View} from "react-native";
 import Event from "../assets/event.svg";
 import Info from "../assets/info.svg";
+import React from "react";
+import colors from "../style/theme";
 import moment from "moment";
 
-export default function CardXL(yevent: aYEvents) {
+export default function CardS(yevent: aYEvents) {
     return (
         <View style={cardStyle.cardContainer}>
             <View>
                 <Image source={{uri: yevent.image}} style={cardStyle.cardImage}></Image>
                 <View style={cardStyle.eventNameContainer}>
-                <Text style={cardStyle.eventName}>{yevent.label}</Text>
+                    <Text style={cardStyle.eventName}>{yevent.label}</Text>
                 </View>
             </View>
             <View style={cardStyle.cardInfos}>
                 <View style={cardStyle.eventDate}>
                     <Event height={18} width={20}></Event>
-                    <Text style={cardStyle.text}>{moment(yevent.date).format('DD/MM/YYYY')}</Text>
+                    <Text style={cardStyle.text}>{moment(yevent.date).format('ddd. DD')}</Text>
                 </View>
                 <View style={cardStyle.eventInfo}>
                     <Info height={20} width={20}></Info>
                     <Text style={[cardStyle.text]}>+ infos</Text>
                 </View>
-                <Text style={cardStyle.eventLabel}>{yevent.type?.label}</Text>
             </View>
         </View>
     )
 }
 
+
 const cardStyle = StyleSheet.create({
     cardContainer: {
-        height: 300,
-        width: 170,
+        height: 150,
+        width: 150,
         borderRadius: 24,
-        backgroundColor: colors.primaryTransparent,
+        backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: colors.white,
         alignItems: "center"
@@ -44,27 +44,31 @@ const cardStyle = StyleSheet.create({
     cardImage: {
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
-        height: 168,
-        width: 168
+        height: 75,
+        width: 148
     },
     eventNameContainer: {
         position: "absolute",
-        bottom: 0,
+        bottom: -12,
         width: '100%',
-        backgroundColor: colors.complementarySecond,
-        paddingVertical: 5
+        paddingVertical: 5,
+        paddingHorizontal: 5
     },
     eventName: {
-        color: "white",
+        color: colors.darkGradientSecondeColor,
         fontWeight: "bold",
         textAlign: "center",
+        backgroundColor: "white",
+        borderRadius: 24,
+        fontSize: 12,
     },
     cardInfos: {
         width: '100%',
         height: '40%',
         alignItems: "center",
-        justifyContent: "space-around",
-        paddingTop: 5
+        justifyContent: "flex-end",
+        paddingTop: 15,
+        gap: 5
     },
     text: {
         color: colors.white
@@ -80,7 +84,7 @@ const cardStyle = StyleSheet.create({
     eventInfo: {
         backgroundColor: colors.complementarySecond,
         borderRadius: 24,
-        paddingVertical: 5,
+        paddingVertical: 1,
         display: "flex",
         flexDirection: "row",
         gap: 5,

@@ -7,7 +7,7 @@ const colors = {
     complementarySecond: '#BF6F58',
     white: '#FFFFFF',
     darkGradientFirstColor: 'rgba(54, 63, 64, 1)',
-    darkGradientSecondeColor: 'rgba(38, 46, 71, 1)',
+    darkGradientSecondeColor: '#262E47FF',
     primaryGradientFirst:'rgba(88, 186, 191, 1)',
     primaryGradientSecond:'rgba(38, 46, 71, 1)',
 }

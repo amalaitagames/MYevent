@@ -2,15 +2,20 @@ import React, {useState} from "react";
 import {StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
 import colors from "../style/theme";
 import HomeSvg from "../assets/home_rounded.svg";
+import HomeSvgWhite from "../assets/home_rounded_white.svg";
 import Booking from "../assets/book_online.svg";
+import BookingWhite from "../assets/book_online_white.svg";
 import Profile from "../assets/account_circle.svg";
+import ProfileWhite from "../assets/account_circle_white.svg";
+import {useNavigation} from "@react-navigation/native";
 
 interface IconProps {
     isSelected: boolean,
     label: string,
 }
 
-export default function BottomNavBar() {
+export default function BottomNavBar({screenIndex}) {
+    const navigation = useNavigation();
     const iconMenus: IconProps[] = [
         {
             label: "Home",
@@ -25,12 +30,14 @@ export default function BottomNavBar() {
             isSelected: false,
         }
     ]
-    const [isSelectedIcon, setSelectedIcon] = useState(0);
+    const [isSelectedIcon, setSelectedIcon] = useState(screenIndex);
     const home = (iconPropsState: IconProps) => {
         return (
             isSelectedIcon !== 0 ?
                 <TouchableOpacity onPress={() => {
-                    setSelectedIcon(0)
+                    setSelectedIcon(screenIndex)
+                    navigation.navigate('Home')
+                    console.log('screen Index Home: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <HomeSvg height={50} width={50}/>
@@ -38,7 +45,7 @@ export default function BottomNavBar() {
                 </TouchableOpacity> :
                 <TouchableOpacity>
                     <View style={styles.menuIcon}>
-                        <HomeSvg height={25} width={27.43}/>
+                        <HomeSvgWhite height={25} width={27.43}/>
                         <Text style={styles.font}>{iconPropsState.label}</Text>
                     </View>
                 </TouchableOpacity>
@@ -48,7 +55,9 @@ export default function BottomNavBar() {
         return (
             isSelectedIcon !== 1 ?
                 <TouchableOpacity onPress={() => {
-                    setSelectedIcon(1)
+                    setSelectedIcon(screenIndex)
+                    navigation.navigate('Booking')
+                    console.log('screen Index Booking: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <Booking height={50} width={50}/>
@@ -56,7 +65,7 @@ export default function BottomNavBar() {
                 </TouchableOpacity> :
                 <TouchableOpacity>
                     <View style={styles.menuIcon}>
-                        <Booking height={25} width={25}/>
+                        <BookingWhite height={25} width={25}/>
                         <Text style={styles.font}>{iconMenuProps.label}</Text>
                     </View>
                 </TouchableOpacity>
@@ -66,7 +75,9 @@ export default function BottomNavBar() {
         return (
             isSelectedIcon !== 2 ?
                 <TouchableOpacity onPress={() => {
-                    setSelectedIcon(2)
+                    setSelectedIcon(screenIndex)
+                    navigation.navigate('Profile')
+                    console.log('screen Index Profile: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <Profile height={50} width={50}/>
@@ -74,7 +85,7 @@ export default function BottomNavBar() {
                 </TouchableOpacity> :
                 <TouchableOpacity>
                     <View style={styles.menuIcon}>
-                        <Profile height={25} width={25}/>
+                        <ProfileWhite height={25} width={25}/>
                         <Text style={styles.font}>{iconMenuProps.label}</Text>
                     </View>
                 </TouchableOpacity>
