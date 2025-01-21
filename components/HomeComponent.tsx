@@ -39,6 +39,7 @@ export default function HomeComponent() {
                                         label={aYEvent.label}
                                         id={aYEvent.id}
                                         places={aYEvent.places}
+                                        placesTotale={aYEvent.placesTotale}
                                         lieu={aYEvent.lieu}
                                         description={aYEvent.description}
                                         date={aYEvent.date}
@@ -61,6 +62,7 @@ export default function HomeComponent() {
                                     <CardS key={index} type={aYEvent.type!!} label={aYEvent.label}
                                            date={aYEvent.date} lieu={aYEvent.lieu}
                                            image={aYEvent.image} places={aYEvent.places}
+                                           placesTotale={aYEvent.placesTotale}
                                            id={aYEvent.id} description={aYEvent.description}>
                                     </CardS>
                                 )

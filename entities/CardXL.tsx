@@ -13,7 +13,6 @@ export default function CardXL(yevent: aYEvents) {
     return (
         <TouchableOpacity onPress={() => {
             let eventDto = makeEventDto(yevent);
-            console.log("event", eventDto);
             navigation.navigate("Reservation", {
                 label: eventDto.label,
                 date: eventDto.date,
@@ -22,6 +21,7 @@ export default function CardXL(yevent: aYEvents) {
                 description: eventDto.description,
                 lieu: eventDto.lieu,
                 id: eventDto.id,
+                placesTotale: eventDto.placesTotale,
                 placesRestantes: eventDto.placesRestantes
             });
         }}>

@@ -37,7 +37,6 @@ export default function BottomNavBar({screenIndex}) {
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
                     navigation.navigate('Home')
-                    console.log('screen Index Home: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <HomeSvg height={50} width={50}/>
@@ -57,7 +56,6 @@ export default function BottomNavBar({screenIndex}) {
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
                     navigation.navigate('Booking')
-                    console.log('screen Index Booking: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <Booking height={50} width={50}/>
@@ -77,7 +75,6 @@ export default function BottomNavBar({screenIndex}) {
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
                     navigation.navigate('Profile')
-                    console.log('screen Index Profile: ', screenIndex)
                 }}>
                     <View style={styles.iconBig}>
                         <Profile height={50} width={50}/>

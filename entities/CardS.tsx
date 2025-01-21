@@ -1,31 +1,48 @@
-import {aYEvents} from "./Yevents";
-import {Image, StyleSheet, Text, View} from "react-native";
+import {aYEvents, makeEventDto} from "./Yevents";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Event from "../assets/event.svg";
 import Info from "../assets/info.svg";
 import React from "react";
 import colors from "../style/theme";
 import moment from "moment";
+import {useNavigation} from "@react-navigation/native";
 
 export default function CardS(yevent: aYEvents) {
+    const navigation = useNavigation();
     return (
-        <View style={cardStyle.cardContainer}>
-            <View>
-                <Image source={{uri: yevent.image}} style={cardStyle.cardImage}></Image>
-                <View style={cardStyle.eventNameContainer}>
-                    <Text style={cardStyle.eventName}>{yevent.label}</Text>
+        <TouchableOpacity onPress={() => {
+            let eventDto = makeEventDto(yevent);
+            navigation.navigate("Reservation", {
+                label: eventDto.label,
+                date: eventDto.date,
+                image: eventDto.image,
+                categorie: eventDto.categorie,
+                description: eventDto.description,
+                lieu: eventDto.lieu,
+                id: eventDto.id,
+                placesTotale: eventDto.placesTotale,
+                placesRestantes: eventDto.placesRestantes
+            });
+        }}>
+            <View style={cardStyle.cardContainer}>
+                <View>
+                    <Image source={{uri: yevent.image}} style={cardStyle.cardImage}></Image>
+                    <View style={cardStyle.eventNameContainer}>
+                        <Text style={cardStyle.eventName}>{yevent.label}</Text>
+                    </View>
+                </View>
+                <View style={cardStyle.cardInfos}>
+                    <View style={cardStyle.eventDate}>
+                        <Event height={18} width={20}></Event>
+                        <Text style={cardStyle.text}>{moment(yevent.date).format('ddd DD')}</Text>
+                    </View>
+                    <View style={cardStyle.eventInfo}>
+                        <Info height={20} width={20}></Info>
+                        <Text style={[cardStyle.text]}>+ infos</Text>
+                    </View>
                 </View>
             </View>
-            <View style={cardStyle.cardInfos}>
-                <View style={cardStyle.eventDate}>
-                    <Event height={18} width={20}></Event>
-                    <Text style={cardStyle.text}>{moment(yevent.date).format('ddd. DD')}</Text>
-                </View>
-                <View style={cardStyle.eventInfo}>
-                    <Info height={20} width={20}></Info>
-                    <Text style={[cardStyle.text]}>+ infos</Text>
-                </View>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

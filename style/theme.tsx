@@ -6,6 +6,8 @@ const colors = {
     tertiary: '#363F40',
     complementarySecond: '#BF6F58',
     white: '#FFFFFF',
+    green: '#309a0a',
+    red: '#8e0505',
     darkGradientFirstColor: 'rgba(54, 63, 64, 1)',
     darkGradientSecondeColor: '#262E47FF',
     primaryGradientFirst:'rgba(88, 186, 191, 1)',

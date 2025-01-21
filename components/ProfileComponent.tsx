@@ -109,7 +109,7 @@ const monProfilStyle = StyleSheet.create({
         gap: 10
     },
     infoTitle: {
-        color: colors.primary,
+        color: colors.white,
         fontSize: 16,
         fontWeight: "bold"
     },
@@ -159,6 +159,6 @@ const monProfilStyle = StyleSheet.create({
     eventsTitle: {
         fontSize: 16,
         fontWeight: "bold",
-        color: colors.darkGradientSecondeColor
+        color: colors.white
     }
 });
