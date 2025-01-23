@@ -16,7 +16,7 @@ export default function BookingComponent() {
         <View style={styles.container}>
             <LinearGradient
                 style={styles.gradient_container}
-                colors={[colors.darkGradientSecondeColor, colors.primary]}
+                colors={[colors.complementarySecond, colors.darkGradientSecondeColor]}
                 start={{x: 0, y: 0}}
                 end={{x: 0.2, y: 1}}
             >
@@ -36,7 +36,14 @@ export default function BookingComponent() {
                     >
                         {getEvents().map((aYEvent, index) => {
                             return (
-                                <CardXL key={index} type={aYEvent.type!!} label={aYEvent.label} date={aYEvent.date}
+                                <CardXL key={index} type={aYEvent.type!!}
+                                        label={aYEvent.label}
+                                        id={aYEvent.id}
+                                        places={aYEvent.places}
+                                        placesTotale={aYEvent.placesTotale}
+                                        date={aYEvent.date}
+                                        lieu={aYEvent.lieu}
+                                        description={aYEvent.description}
                                         image={aYEvent.image}></CardXL>
                             )
                         })}
@@ -54,7 +61,9 @@ export default function BookingComponent() {
                             if (aYEvent.date.getMonth() === actualMonth) {
                                 return (
                                     <CardS key={index} type={aYEvent.type!!} label={aYEvent.label}
-                                           date={aYEvent.date}
+                                           date={aYEvent.date} placesTotale={aYEvent.placesTotale}
+                                           lieu={aYEvent.lieu} places={aYEvent.places} id={aYEvent.id}
+                                           description={aYEvent.description}
                                            image={aYEvent.image}></CardS>
                                 )
                             }

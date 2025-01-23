@@ -7,9 +7,12 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Event from "../assets/event.svg";
 import {styles} from "../style/shared-styles";
 import Home from "../assets/home_rounded_white.svg"
+import QRCode from "react-native-qrcode-svg";
 export default function ReservationDoneComponent({route}) {
     const navigation = useNavigation();
     let event = route.params.event;
+    let reservation = route.params.reservation;
+
     return (
         <LinearGradient
             style={styles.gradient_container}
@@ -42,8 +45,16 @@ export default function ReservationDoneComponent({route}) {
                             </View>
                         </View>
                     </LinearGradient>
-
-
+                    <View style={reservationReussie.reservationNumeroContainer}>
+                        <Text style={reservationReussie.numeroResaLabel}>Mon numéro de réservation :</Text>
+                        <Text style={reservationReussie.numeResa}>XXXXXXXX</Text>
+                    </View>
+                    <View style={reservationReussie.qrCodeMainContainer}>
+                    <View style={reservationReussie.qrCodeContainer}>
+                    <QRCode size={200}
+                        value={reservation.toString()}/>
+                    </View>
+                    </View>
                     <View style={reservationStyle.boutonContainer}>
                         <TouchableOpacity style={[reservationStyle.boutonReserver, reservationReussie.boutonRetour]}
                               onPress={() => {
@@ -63,5 +74,40 @@ const reservationReussie = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         gap: 10
+    },
+    reservationNumeroContainer: {
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    numeroResaLabel: {
+      color: colors.primary,
+        textAlign: "center",
+    },
+    numeResa: {
+      color: colors.white,
+      fontWeight: "bold",
+        fontSize: 32
+    },
+    qrCodeMainContainer: {
+      width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    qrCodeContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 250,
+        width: 250,
+        borderWidth: 1,
+        borderColor: colors.primary,
+        backgroundColor: colors.white,
+        borderRadius: 24,
+        padding: 10,
+        elevation: 15,
+        shadowColor: colors.primary,
     }
 })

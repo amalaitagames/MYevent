@@ -7,6 +7,7 @@ import ProfileComponent from "./components/ProfileComponent";
 import ReservationComponent from "./components/ReservationComponent";
 import ReservationFormComponent from "./components/ReservationFormComponent";
 import ReservationDoneComponent from "./components/ReservationDoneComponent";
+import LoginComponent from "./components/LoginComponent";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -15,7 +16,8 @@ export default function App() {
 
     return (
             <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name={"Login"} component={LoginComponent} options={{headerShown: false}}/>
                 <Stack.Screen name="Home" component={HomeComponent} options={{headerShown: false}}/>
                 <Stack.Screen name="Booking" component={BookingComponent} options={{headerShown: false}}/>
                 <Stack.Screen name="Profile" component={ProfileComponent} options={{headerShown: false}}/>

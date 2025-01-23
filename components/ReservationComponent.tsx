@@ -32,61 +32,63 @@ export default function ReservationComponent({route}) {
             end={{x: 0.1, y: 0.5}}
         >
             <View style={reservationStyle.mainContainer}>
-                <Text style={reservationStyle.titre}>Tout ce que tu dois savoir</Text>
-                <View style={reservationStyle.infoMainContainer}>
-                    <Text style={reservationStyle.eventLabel}>{event.label}</Text>
-                    <LinearGradient
-                        colors={[colors.primary, colors.darkGradientSecondeColor]}
-                        start={{x: 1, y: 0.2}}
-                        end={{x: 0.2, y: 0.7}}
-                        style={reservationStyle.infoCard}>
-                        <Image source={{uri: event.image}} style={reservationStyle.infoCardImage}></Image>
-                        <View style={reservationStyle.textInfos}>
-                            <Text style={reservationStyle.infoCategorie}>{event.categorie}</Text>
-                            <View style={reservationStyle.placeRestantesMainContainer}>
-                                <View style={reservationStyle.placeRestantesSubContainer}>
-                                    {getPlacesRestantesGommette(event.placesTotale, event.placesRestantes)}
-                                    <Text style={reservationStyle.placeRestantes}>{event.placesRestantes}</Text>
+                <View>
+                    <Text style={reservationStyle.titre}>Tout ce que tu dois savoir</Text>
+                    <View style={reservationStyle.infoMainContainer}>
+                        <Text style={reservationStyle.eventLabel}>{event.label}</Text>
+                        <LinearGradient
+                            colors={[colors.primary, colors.darkGradientSecondeColor]}
+                            start={{x: 1, y: 0.2}}
+                            end={{x: 0.2, y: 0.7}}
+                            style={reservationStyle.infoCard}>
+                            <Image source={{uri: event.image}} style={reservationStyle.infoCardImage}></Image>
+                            <View style={reservationStyle.textInfos}>
+                                <Text style={reservationStyle.infoCategorie}>{event.categorie}</Text>
+                                <View style={reservationStyle.placeRestantesMainContainer}>
+                                    <View style={reservationStyle.placeRestantesSubContainer}>
+                                        {getPlacesRestantesGommette(event.placesTotale, event.placesRestantes)}
+                                        <Text style={reservationStyle.placeRestantes}>{event.placesRestantes}</Text>
+                                    </View>
+                                    <Text style={reservationStyle.placeRestantes}>places restantes</Text>
                                 </View>
-                                <Text style={reservationStyle.placeRestantes}>places restantes</Text>
+                                <View style={reservationStyle.eventDateContainer}>
+                                    <Event height={18} width={20}></Event>
+                                    <Text style={reservationStyle.eventDate}>{event.date}</Text>
+                                </View>
                             </View>
-                            <View style={reservationStyle.eventDateContainer}>
-                                <Event height={18} width={20}></Event>
-                                <Text style={reservationStyle.eventDate}>{event.date}</Text>
+                        </LinearGradient>
+
+                        <View style={reservationStyle.lieuMainContainer}>
+                            <View style={reservationStyle.lieuTextContainer}>
+                                <Text style={reservationStyle.lieuLabel}>Lieu</Text>
+                                <Text style={[reservationStyle.eventAdresseName]}>{event.lieu.label},</Text>
+                                <Text style={reservationStyle.eventAdresse}>{event.lieu.adresse}</Text>
+                            </View>
+                            <MapView style={reservationStyle.mapView} initialRegion={{
+                                latitude: event.lieu.latitude,
+                                longitude: event.lieu.longitude,
+                                latitudeDelta: 3,
+                                longitudeDelta: 3
+                            }}>
+                                <Marker coordinate={{latitude: event.lieu.latitude, longitude: event.lieu.longitude}}/>
+                            </MapView>
+                        </View>
+
+                        <View style={reservationStyle.descriptionMainContainer}>
+                            <Text style={reservationStyle.descriptionLabel}>Description</Text>
+                            <View style={reservationStyle.descriptionTextContainer}>
+                                <ScrollView style={reservationStyle.eventDescriptionScrollContainer}>
+                                    <Text style={reservationStyle.eventDescription}>{event.description}</Text>
+                                </ScrollView>
                             </View>
                         </View>
-                    </LinearGradient>
-
-                    <View style={reservationStyle.lieuMainContainer}>
-                        <View style={reservationStyle.lieuTextContainer}>
-                            <Text style={reservationStyle.lieuLabel}>Lieu</Text>
-                            <Text style={[reservationStyle.eventAdresseName]}>{event.lieu.label},</Text>
-                            <Text style={reservationStyle.eventAdresse}>{event.lieu.adresse}</Text>
-                        </View>
-                        <MapView style={reservationStyle.mapView} initialRegion={{
-                            latitude: event.lieu.latitude,
-                            longitude: event.lieu.longitude,
-                            latitudeDelta: 3,
-                            longitudeDelta: 3
-                        }}>
-                            <Marker coordinate={{latitude: event.lieu.latitude, longitude: event.lieu.longitude}}/>
-                        </MapView>
                     </View>
-
-                    <View style={reservationStyle.descriptionMainContainer}>
-                        <Text style={reservationStyle.descriptionLabel}>Description</Text>
-                        <View style={reservationStyle.descriptionTextContainer}>
-                            <ScrollView style={reservationStyle.eventDescriptionScrollContainer}>
-                                <Text style={reservationStyle.eventDescription}>{event.description}</Text>
-                            </ScrollView>
-                        </View>
-                    </View>
-                    <View style={reservationStyle.boutonContainer}>
-                        <TouchableOpacity style={reservationStyle.boutonReserver}
-                              onPress={() => {
-                                  navigation.navigate('ReservationForm', {event})
-                              }}><Text style={reservationStyle.boutonLabel}>RÉSERVER</Text></TouchableOpacity>
-                    </View>
+                </View>
+                <View style={reservationStyle.boutonContainer}>
+                    <TouchableOpacity style={reservationStyle.boutonReserver}
+                                      onPress={() => {
+                                          navigation.navigate('ReservationForm', {event})
+                                      }}><Text style={reservationStyle.boutonLabel}>RÉSERVER</Text></TouchableOpacity>
                 </View>
             </View>
         </LinearGradient>
@@ -107,6 +109,7 @@ export const reservationStyle = StyleSheet.create({
         padding: 10,
         height: '100%',
         display: "flex",
+        justifyContent: "space-between",
         gap: 20
     },
     titre: {
@@ -115,7 +118,7 @@ export const reservationStyle = StyleSheet.create({
     },
     infoMainContainer: {
         display: 'flex',
-        gap: 20
+        gap: 30
     },
     infoCard: {
         borderWidth: 1,
@@ -212,7 +215,7 @@ export const reservationStyle = StyleSheet.create({
         fontSize: 16,
     },
     eventAdresseName: {
-color: colors.white,
+        color: colors.white,
         fontSize: 16,
         fontWeight: "bold",
     },
@@ -249,10 +252,10 @@ color: colors.white,
     },
     boutonContainer: {
         marginTop: 25,
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     },
     boutonReserver: {
         backgroundColor: colors.primary,
