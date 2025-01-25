@@ -6,7 +6,6 @@ import React, {useState} from "react";
 import colors from "../style/theme";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
-import {supabase} from "../initSupabase";
 import {getCategoryFromID} from "./YCategory";
 import {getLieuFromID, YLieu} from "./YLieu";
 

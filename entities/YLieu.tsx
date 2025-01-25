@@ -1,6 +1,7 @@
 import {supabase} from "../initSupabase";
 
 export interface YLieu {
+    id: string;
     label: string,
     adresse: string,
     latitude: number,

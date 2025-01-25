@@ -8,13 +8,14 @@ import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
 import {getCategoryFromID} from "./YCategory";
 import {getLieuFromID, YLieu} from "./YLieu";
-import {log} from "expo/build/devtools/logger";
 
-
+let indexCard = 0;
 export default function CardXL(yevent: aYEvents) {
 
     const navigation = useNavigation();
 
+    console.log("indexCard |||||||||||||||||||| ", indexCard);
+    indexCard++;
     const [eventCategorie, setEventCategorie] = useState<string>("");
         let categorieLabel = getCategoryFromID(yevent.type!!)
         categorieLabel.then(categorie => {
@@ -32,7 +33,7 @@ export default function CardXL(yevent: aYEvents) {
 
     return (
         <TouchableOpacity onPress={() => {
-            let eventDto = makeEventDto(yevent);
+            let eventDto = makeEventDto(yevent, eventLieu!!, eventCategorie);
             navigation.navigate("Reservation", {
                 label: eventDto.label,
                 date: eventDto.date,

@@ -23,7 +23,6 @@ export default function HomeComponent({route}) {
         let utilisateurDto = AsyncStorage.getItem("utilisateur");
         utilisateurDto.then(utilisateurDto => {
             if (utilisateurDto !== null) {
-                console.log("utilisateurDto", utilisateurDto);
                 setUtilisateur(JSON.parse(utilisateurDto));
             }
         })

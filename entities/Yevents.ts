@@ -29,6 +29,7 @@ export interface YeventDto {
 }
 
 export function makeEventDto(yEvent: aYEvents, lieuDto: YLieu, categorieDtoLabel: string): YeventDto {
+    console.log("makeDto", lieuDto, categorieDtoLabel)
     return {
         label: yEvent.label,
         image: yEvent.image,
@@ -55,6 +56,21 @@ export async function getEventsPromise(): Promise<aYEvents[]> {
         console.log(error)
     }
     return data === null ? [] : data as unknown as aYEvents[];
+}
+
+export async function getUtilisateurEventsPromise(eventId: string) {
+    let { data, error } = await supabase
+        .from('Yevents')
+        .select('*')
+        .eq('id', eventId);
+
+    if (data) {
+        console.log(data)
+    }
+    if (error) {
+        console.log(error)
+    }
+    return data === null ? null : data as unknown as aYEvents;
 }
 
 export async function updateEvent(eventDto: YeventDto) {

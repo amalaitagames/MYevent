@@ -30,7 +30,6 @@ export async function getCategoryFromID(id: number) {
         .from('YCategorie')
         .select('id, label')
         .eq('id', id);
-    console.log(YCategorie)
     if (error) {
         console.log(error);
     }
