@@ -6,5 +6,6 @@ export interface Utilisateur {
     mail: string,
     motDePasse: string,
     reservation?: Reservation[],
-    id?: number;
+    id?: string;
+    user_id?: string;
 }

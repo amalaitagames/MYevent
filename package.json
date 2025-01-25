@@ -24,6 +24,8 @@
     "react": "18.3.1",
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.6",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-event-listeners": "^1.0.7",
     "react-native-get-random-values": "~1.11.0",
     "react-native-library": "^1.0.25",
     "react-native-maps": "1.18.0",
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~18.3.12",
+    "react-native-config": "^1.5.3",
     "react-native-svg-transformer": "^1.5.0",
     "typescript": "^5.3.3"
   },
