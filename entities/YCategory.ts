@@ -1,3 +1,5 @@
+import {supabase} from "../initSupabase";
+
 export interface YCategory {
     id: number,
     label: string
@@ -22,3 +24,15 @@ export const HUMOUR: YCategory = {id: 3, label: 'Humour'} as YCategory;
 export const SPECTACLE: YCategory = {id: 4, label: 'Spectacle'} as YCategory;
 export const HAPPENING: YCategory = {id: 5, label: 'Happening'} as YCategory;
 export const AFTER_WORK: YCategory = {id: 6, label: 'After Work'} as YCategory;
+
+export async function getCategoryFromID(id: number) {
+    let {data: YCategorie, error} = await supabase
+        .from('YCategorie')
+        .select('id, label')
+        .eq('id', id);
+    console.log(YCategorie)
+    if (error) {
+        console.log(error);
+    }
+    return YCategorie !== null ? YCategorie as unknown as YCategory[] : null;
+}

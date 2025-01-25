@@ -1,19 +1,26 @@
 import React, {useState} from "react";
-import {ScrollView, Text, View} from "react-native";
+import {ActivityIndicator, SafeAreaView, ScrollView, Text, View} from "react-native";
 import BottomNavBar from "./BottomNavBar";
 import {LinearGradient} from "expo-linear-gradient";
 import colors from "../style/theme";
 import getCategories from "../entities/YCategory";
-import getEvents from "../entities/Yevents";
+import getEvents, {aYEvents, getEventsPromise} from "../entities/Yevents";
 import CardXL from "../entities/CardXL";
 import CardS from "../entities/CardS";
 import {StatusBar} from "expo-status-bar";
 import {styles} from "../style/shared-styles";
 import Categories from "./Categories";
 import {Utilisateur} from "../entities/Utilisateur";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function BookingComponent({route}) {
     let utilisateur: Utilisateur = route.params.utilisateur;
+    const [eventsListe, setEventsListe] = useState<aYEvents[]>([]);
+    if (eventsListe.length <= 0) {
+        getEventsPromise().then(events => {
+            setEventsListe(events)
+        });
+    }
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -36,19 +43,24 @@ export default function BookingComponent({route}) {
                                 showsHorizontalScrollIndicator={false}
                                 contentContainerStyle={styles.scrollXLContentContainer}
                     >
-                        {getEvents().map((aYEvent, index) => {
+                        {eventsListe.length > 0 ?
+                            eventsListe.map((aYEvent, index) => {
                             return (
                                 <CardXL key={index} type={aYEvent.type!!}
                                         label={aYEvent.label}
                                         id={aYEvent.id}
-                                        places={aYEvent.places}
-                                        placesTotale={aYEvent.placesTotale}
+                                        placesRestantes={aYEvent.placesRestantes}
+                                        placesTotales={aYEvent.placesTotales}
                                         date={aYEvent.date}
                                         lieu={aYEvent.lieu}
                                         description={aYEvent.description}
                                         image={aYEvent.image}></CardXL>
                             )
-                        })}
+                        }): <SafeAreaProvider>
+                                <SafeAreaView style={[styles.container]}>
+                                    <ActivityIndicator size="large" color={colors.white}/>
+                                </SafeAreaView>
+                            </SafeAreaProvider>}
                     </ScrollView>
                 </View>
                 <View style={styles.cardViewMainContainer}>
@@ -58,18 +70,22 @@ export default function BookingComponent({route}) {
                                 showsHorizontalScrollIndicator={false}
                                 contentContainerStyle={styles.scrollSmallContentContainer}
                     >
-                        {getEvents().map((aYEvent, index) => {
+                        {eventsListe.length > 0 ? eventsListe.map((aYEvent, index) => {
                             let actualMonth = new Date().getMonth();
                             if (aYEvent.date.getMonth() === actualMonth) {
                                 return (
                                     <CardS key={index} type={aYEvent.type!!} label={aYEvent.label}
-                                           date={aYEvent.date} placesTotale={aYEvent.placesTotale}
-                                           lieu={aYEvent.lieu} places={aYEvent.places} id={aYEvent.id}
+                                           date={aYEvent.date} placesTotales={aYEvent.placesTotales}
+                                           lieu={aYEvent.lieu} placesRestantes={aYEvent.placesRestantes} id={aYEvent.id}
                                            description={aYEvent.description}
                                            image={aYEvent.image}></CardS>
                                 )
                             }
-                        })}
+                        }) :  <SafeAreaProvider>
+                            <SafeAreaView style={[styles.container]}>
+                                <ActivityIndicator size="small" color={colors.white}/>
+                            </SafeAreaView>
+                        </SafeAreaProvider>}
                     </ScrollView>
                 </View>
 

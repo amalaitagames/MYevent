@@ -4,4 +4,6 @@ export interface Reservation {
     mail: string,
     nbrDeTicket: string
     id?: number,
+    user_id?: string,
+    event_id?: string
 }

@@ -2,13 +2,32 @@ import {aYEvents, makeEventDto} from "./Yevents";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Event from "../assets/event.svg";
 import Info from "../assets/info.svg";
-import React from "react";
+import React, {useState} from "react";
 import colors from "../style/theme";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
+import {supabase} from "../initSupabase";
+import {getCategoryFromID} from "./YCategory";
+import {getLieuFromID, YLieu} from "./YLieu";
 
 export default function CardS(yevent: aYEvents) {
     const navigation = useNavigation();
+
+    const [eventCategorie, setEventCategorie] = useState<string>("");
+    let categorieLabel = getCategoryFromID(yevent.type!!)
+    categorieLabel.then(categorie => {
+        if (categorie !== null && eventCategorie === "") {
+            setEventCategorie(categorie[0].label);
+        }
+    });
+    const [eventLieu, setEventLieu] = useState<YLieu | null>(null);
+    let lieu = getLieuFromID(yevent.lieu!!)
+    lieu.then(lieuResult => {
+        if (lieuResult !== null && eventLieu === null) {
+            setEventLieu(lieuResult[0]);
+        }
+    });
+
     return (
         <TouchableOpacity onPress={() => {
             let eventDto = makeEventDto(yevent);
@@ -16,9 +35,9 @@ export default function CardS(yevent: aYEvents) {
                 label: eventDto.label,
                 date: eventDto.date,
                 image: eventDto.image,
-                categorie: eventDto.categorie,
+                categorie: eventCategorie,
                 description: eventDto.description,
-                lieu: eventDto.lieu,
+                lieu: eventLieu,
                 id: eventDto.id,
                 placesTotale: eventDto.placesTotale,
                 placesRestantes: eventDto.placesRestantes

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {LinearGradient} from "expo-linear-gradient";
 import colors from "../style/theme";
 import {Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
@@ -9,11 +9,23 @@ import * as yup from "yup";
 import {Controller} from "react-hook-form";
 import {Reservation} from "../entities/Reservation";
 import {mailRegex, setFormControl, textRegex} from "../lib/form.tools";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Utilisateur} from "../entities/Utilisateur";
+import {createReservation} from "../service/database.service";
+import {updateEvent, YeventDto} from "../entities/Yevents";
 
 export default function ReservationFormComponent({route}) {
     const navigation = useNavigation();
-    let event = route.params.event;
-
+    let event: YeventDto = route.params.event;
+    const [utilisateurId, setUtilisateurId] = useState<string>();
+    let utilisateurPromise = AsyncStorage.getItem("utilisateur");
+    utilisateurPromise.then((utilisateur) => {
+        if (utilisateur !== null) {
+            let utilisateurDto = JSON.parse(utilisateur) as Utilisateur;
+            console.log('utilisateur', utilisateurDto);
+            setUtilisateurId(utilisateurDto.id);
+        }
+    })
     const formSchema = yup.object().shape({
         nom: yup.string()
             .matches(textRegex, "Nom invalide")
@@ -43,9 +55,23 @@ export default function ReservationFormComponent({route}) {
             && formControlErrorsValue.prenom === undefined
             && formControlErrorsValue.email === undefined
             && formControlErrorsValue.nbrDeTicket === undefined;
-        let reservation: Reservation = data;
+        let reservation: Reservation = {...data, event_id: event.id, user_id: utilisateurId};
+        console.log("reservation", reservation);
+        let placesRestantes = event.placesRestantes - +reservation.nbrDeTicket;
+        let updatedEventAvecPlacesRestantes = {...event, placesRestantes: placesRestantes}
         if (formControl.formState.touchedFields && isFormValid) {
-            navigation.navigate('ReservationReussie', {reservation: reservation, event: event})
+            let createdReservation = createReservation(reservation);
+            createdReservation.then(r => {
+                if (r !== null) {
+                    let updatedEvent = updateEvent(updatedEventAvecPlacesRestantes);
+                    updatedEvent.then(result => {
+                        if (result !== null) {
+                            navigation.navigate('ReservationReussie', {reservation: reservation, event: updatedEventAvecPlacesRestantes})
+                        }
+                    })
+
+                }
+            })
         }
     };
     return (

@@ -1,6 +1,7 @@
 import {Utilisateur} from "../entities/Utilisateur";
 import {supabase} from "../initSupabase";
 import {UtilisateurLogin} from "../entities/UtilisateurLogin";
+import {Reservation} from "../entities/Reservation";
 
 const bcryptjs = require("bcryptjs");
 
@@ -50,4 +51,19 @@ export async function getUtilisateur(uid: string): Promise<Utilisateur> {
     }
 
     return Utilisateur?.at(0);
+}
+
+export async function createReservation(reservation: Reservation) {
+    const { data, error } = await supabase
+        .from('Reservation')
+        .insert(reservation)
+        .select();
+
+    if (data) {
+        console.log(data);
+    }
+    if (error) {
+        console.log(error);
+    }
+    return data;
 }

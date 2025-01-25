@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {aYEvents, makeEventDto} from "./Yevents";
 import colors from "../style/theme";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
@@ -6,10 +6,30 @@ import Event from "../assets/event.svg";
 import Info from "../assets/info.svg";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
+import {getCategoryFromID} from "./YCategory";
+import {getLieuFromID, YLieu} from "./YLieu";
+import {log} from "expo/build/devtools/logger";
 
 
 export default function CardXL(yevent: aYEvents) {
+
     const navigation = useNavigation();
+
+    const [eventCategorie, setEventCategorie] = useState<string>("");
+        let categorieLabel = getCategoryFromID(yevent.type!!)
+        categorieLabel.then(categorie => {
+            if (categorie !== null && eventCategorie === "") {
+                setEventCategorie(categorie[0].label);
+            }
+        });
+    const [eventLieu, setEventLieu] = useState<YLieu | null>(null);
+        let lieu = getLieuFromID(yevent.lieu!!)
+        lieu.then(lieuResult => {
+            if (lieuResult !== null && eventLieu === null) {
+                setEventLieu(lieuResult[0]);
+            }
+        });
+
     return (
         <TouchableOpacity onPress={() => {
             let eventDto = makeEventDto(yevent);
@@ -17,9 +37,9 @@ export default function CardXL(yevent: aYEvents) {
                 label: eventDto.label,
                 date: eventDto.date,
                 image: eventDto.image,
-                categorie: eventDto.categorie,
+                categorie: eventCategorie,
                 description: eventDto.description,
-                lieu: eventDto.lieu,
+                lieu: eventLieu,
                 id: eventDto.id,
                 placesTotale: eventDto.placesTotale,
                 placesRestantes: eventDto.placesRestantes
@@ -41,7 +61,7 @@ export default function CardXL(yevent: aYEvents) {
                     <Info height={20} width={20}></Info>
                     <Text style={[cardStyle.text]}>+ infos</Text>
                 </View>
-                <Text style={cardStyle.eventLabel}>{yevent.type?.label}</Text>
+                <Text style={cardStyle.eventLabel}>{eventCategorie}</Text>
             </View>
         </View>
         </TouchableOpacity>

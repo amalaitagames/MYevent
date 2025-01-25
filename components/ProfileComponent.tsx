@@ -72,8 +72,8 @@ export default function ProfileComponent({route}) {
                                     if (aYEvent.date.getMonth() === actualMonth) {
                                         return (
                                             <CardS key={index} type={aYEvent.type!!} label={aYEvent.label}
-                                                   date={aYEvent.date} placesTotale={aYEvent.placesTotale}
-                                                   lieu={aYEvent.lieu} places={aYEvent.places} id={aYEvent.id}
+                                                   date={aYEvent.date} placesTotales={aYEvent.placesTotale}
+                                                   lieu={aYEvent.lieu} placesRestantes={aYEvent.places} id={aYEvent.id}
                                                    description={aYEvent.description}
                                                    image={aYEvent.image}></CardS>
                                         )
