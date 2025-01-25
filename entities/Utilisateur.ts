@@ -4,7 +4,7 @@ export interface Utilisateur {
     nom: string,
     prenom: string,
     mail: string,
-    motDePasse: bigint,
-    reservation: Reservation[],
+    motDePasse: string,
+    reservation?: Reservation[],
     id?: number;
 }

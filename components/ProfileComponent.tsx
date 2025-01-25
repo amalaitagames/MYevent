@@ -8,8 +8,13 @@ import getCategories from "../entities/YCategory";
 import getEvents from "../entities/Yevents";
 import CardS from "../entities/CardS";
 import {StatusBar} from "expo-status-bar";
+import {getInLocalStorage} from "../service/tools";
+import {Utilisateur} from "../entities/Utilisateur";
 
-export default function ProfileComponent() {
+export default function ProfileComponent({route}) {
+
+    let utilisateur: Utilisateur = route.params.utilisateur
+
     return (
         <View style={monProfilStyle.container}>
             <LinearGradient
@@ -19,7 +24,7 @@ export default function ProfileComponent() {
                 end={{x: 0.2, y: 1}}
             >
                     <View style={monProfilStyle.titlesAndCategories}>
-                        <Text style={[styles.textSmall, styles.textFont]}>Bonjour, new user</Text>
+                        <Text style={[styles.textSmall, styles.textFont]}>Bonjour {utilisateur.prenom}</Text>
                         <Text style={[styles.textXL, styles.textFont]}>Mon Profil</Text>
                     </View>
 
@@ -28,9 +33,9 @@ export default function ProfileComponent() {
                         <View style={monProfilStyle.infosContainer}>
                             <Text style={monProfilStyle.infoTitle}>Mes Infos</Text>
                             <View style={monProfilStyle.infosSubContainer}>
-                                <Text style={monProfilStyle.infoSubtitle}>Prénom: New</Text>
-                                <Text style={monProfilStyle.infoSubtitle}>Nom: User</Text>
-                                <Text style={monProfilStyle.infoSubtitle}>Mail: new.user@usermail.com</Text>
+                                <Text style={monProfilStyle.infoSubtitle}>Prénom: {utilisateur.prenom}</Text>
+                                <Text style={monProfilStyle.infoSubtitle}>Nom: {utilisateur.nom}</Text>
+                                <Text style={monProfilStyle.infoSubtitle}>Mail: {utilisateur.mail}</Text>
                                 <Text style={monProfilStyle.infoSubtitle}>Ville: User-ville</Text>
                             </View>
                         </View>
@@ -59,7 +64,10 @@ export default function ProfileComponent() {
                                         showsHorizontalScrollIndicator={false}
                                         contentContainerStyle={styles.scrollSmallContentContainer}
                             >
-                                {getEvents().map((aYEvent, index) => {
+
+                                {
+                                    utilisateur.reservation !== undefined && utilisateur.reservation.length > 0 ?
+                                    getEvents().map((aYEvent, index) => {
                                     let actualMonth = new Date().getMonth();
                                     if (aYEvent.date.getMonth() === actualMonth) {
                                         return (
@@ -70,12 +78,14 @@ export default function ProfileComponent() {
                                                    image={aYEvent.image}></CardS>
                                         )
                                     }
-                                })}
+                                }) :
+                                    <Text>Pas d'évènements réservés</Text>
+                                }
                             </ScrollView>
                         </View>
                     </View>
                 <StatusBar style="auto"/>
-                <BottomNavBar screenIndex={2}></BottomNavBar>
+                <BottomNavBar screenIndex={2} utilisateur={utilisateur}></BottomNavBar>
             </LinearGradient>
         </View>
     )

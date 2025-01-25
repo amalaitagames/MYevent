@@ -9,9 +9,12 @@ import BottomNavBar from "./BottomNavBar";
 import {LinearGradient} from "expo-linear-gradient";
 import {styles} from "../style/shared-styles";
 import Categories from "./Categories";
+import {getInLocalStorage} from "../service/tools";
 
 
-export default function HomeComponent() {
+export default function HomeComponent({route}) {
+    let utilisateur = route.params.utilisateur;
+
     return (<View style={styles.container}>
             <LinearGradient
                 style={styles.gradient_container}
@@ -21,7 +24,7 @@ export default function HomeComponent() {
             >
                 <View style={styles.titlesAndCategories}>
                     <View>
-                        <Text style={[styles.textSmall, styles.textFont]}>Hi, new user</Text>
+                        <Text style={[styles.textSmall, styles.textFont]}>Bonjour {utilisateur.prenom}</Text>
                         <Text style={[styles.textXL, styles.textFont]}>Réserve ton {"\n"}prochain évènement</Text>
                     </View>
                     <Categories></Categories>
@@ -72,7 +75,7 @@ export default function HomeComponent() {
                 </View>
 
                 <StatusBar style="auto"/>
-                <BottomNavBar screenIndex={0}></BottomNavBar>
+                <BottomNavBar screenIndex={0} utilisateur={utilisateur}></BottomNavBar>
             </LinearGradient>
         </View>
     )

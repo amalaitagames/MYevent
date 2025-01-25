@@ -2,14 +2,37 @@ import React, {useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import * as yup from "yup";
 import {mailRegex, setFormControl, textRegex} from "../lib/form.tools";
-import {Controller} from "react-hook-form";
+import {Controller, FieldValues, UseFormReturn} from "react-hook-form";
 import {formStyle} from "./ReservationFormComponent";
 import {LinearGradient} from "expo-linear-gradient";
 import {reservationStyle} from "./ReservationComponent";
 import colors from "../style/theme";
+import {createNewUser} from "../service/database.service";
+import {Utilisateur} from "../entities/Utilisateur";
+import {useNavigation} from "@react-navigation/native";
+import {saveInLocalStorage} from "../service/tools";
+
+function saveNewUser(formControl: UseFormReturn<FieldValues, any, undefined>) {
+
+    if (formControl.getValues()["motDePasse"] === formControl.getValues()["motDePasseConfirmation"]) {
+        let utilisateur: Utilisateur = {
+            nom: formControl.getValues()["nom"],
+            prenom: formControl.getValues()["prenom"],
+            mail: formControl.getValues()["email"],
+            motDePasse: formControl.getValues()["motDePasse"]
+        }
+        return createNewUser(utilisateur).then(r => {
+            if (r?.at(0) === true) {
+                console.log("Utilisateur saved");
+                return r;
+            }
+            return r;
+        });
+    }
+}
 
 export default function LoginComponent() {
-
+    const navigation = useNavigation();
     const formSchema = yup.object().shape({
         nom: yup.string()
             .matches(textRegex, "Nom invalide")
@@ -32,6 +55,21 @@ export default function LoginComponent() {
 
     const formControl = setFormControl(formSchema);
     const [isInscription, setInscription] = useState(false);
+    const onSubmit = (data) => {
+        if (isInscription) {
+        let savedUser = saveNewUser(formControl);
+        if (savedUser !== undefined) {
+            savedUser.then(r => {
+                let utilisateur = r.at(1);
+                if (utilisateur !== undefined) {
+                   saveInLocalStorage('utilisateur', JSON.stringify(utilisateur));
+                    navigation.navigate("Home", {utilisateur: utilisateur});
+                }
+            })
+        }
+
+        }
+    }
     return (
         <LinearGradient
             style={reservationStyle.gradientInfoContainer}
@@ -133,8 +171,9 @@ export default function LoginComponent() {
                                     onBlur={onBlur}
                                     onChangeText={onChange}
                                     value={value}
-                                    textContentType={"password"}
+                                    textContentType={"newPassword"}
                                     placeholder="Mot de passe"
+                                    secureTextEntry={true}
                                 />
                             )}
                             name="motDePasse"
@@ -159,10 +198,11 @@ export default function LoginComponent() {
                                             onChangeText={onChange}
                                             value={value}
                                             textContentType={"password"}
-                                            placeholder="Mot de passe"
+                                            placeholder="Confirmation Mot de passe"
+                                            secureTextEntry={true}
                                         />
                                     )}
-                                    name="motDePasse"
+                                    name="motDePasseConfirmation"
                                     rules={{required: true}}
                                     defaultValue=""
                                 />
@@ -174,8 +214,7 @@ export default function LoginComponent() {
                     <View style={reservationStyle.boutonContainer}>
                         <TouchableOpacity role="button" style={reservationStyle.boutonReserver}
                                           onPress={
-                                              //formControl.handleSubmit(onSubmit)
-                                              console.log("connexion")
+                                              formControl.handleSubmit(onSubmit)
                                           }>
 
                             <Text
@@ -188,6 +227,7 @@ export default function LoginComponent() {
                         <TouchableOpacity
                             onPress={() => {
                                 setInscription(!isInscription);
+                                formControl.clearErrors();
                             }}
                         >
                             {

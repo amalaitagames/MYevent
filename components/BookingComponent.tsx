@@ -10,8 +10,10 @@ import CardS from "../entities/CardS";
 import {StatusBar} from "expo-status-bar";
 import {styles} from "../style/shared-styles";
 import Categories from "./Categories";
+import {Utilisateur} from "../entities/Utilisateur";
 
-export default function BookingComponent() {
+export default function BookingComponent({route}) {
+    let utilisateur: Utilisateur = route.params.utilisateur;
     return (
         <View style={styles.container}>
             <LinearGradient
@@ -72,7 +74,7 @@ export default function BookingComponent() {
                 </View>
 
                 <StatusBar style="auto"/>
-                <BottomNavBar screenIndex={1}></BottomNavBar>
+                <BottomNavBar screenIndex={1} utilisateur={utilisateur}></BottomNavBar>
             </LinearGradient>
         </View>
     )

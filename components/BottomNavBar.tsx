@@ -14,7 +14,7 @@ interface IconProps {
     label: string,
 }
 
-export default function BottomNavBar({screenIndex}) {
+export default function BottomNavBar({screenIndex, utilisateur}) {
     const navigation = useNavigation();
     const iconMenus: IconProps[] = [
         {
@@ -36,7 +36,7 @@ export default function BottomNavBar({screenIndex}) {
             isSelectedIcon !== 0 ?
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
-                    navigation.navigate('Home')
+                    navigation.navigate('Home', {utilisateur: utilisateur})
                 }}>
                     <View style={styles.iconBig}>
                         <HomeSvg height={50} width={50}/>
@@ -55,7 +55,7 @@ export default function BottomNavBar({screenIndex}) {
             isSelectedIcon !== 1 ?
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
-                    navigation.navigate('Booking')
+                    navigation.navigate('Booking', {utilisateur: utilisateur})
                 }}>
                     <View style={styles.iconBig}>
                         <Booking height={50} width={50}/>
@@ -74,7 +74,7 @@ export default function BottomNavBar({screenIndex}) {
             isSelectedIcon !== 2 ?
                 <TouchableOpacity onPress={() => {
                     setSelectedIcon(screenIndex)
-                    navigation.navigate('Profile')
+                    navigation.navigate('Profile', {utilisateur: utilisateur})
                 }}>
                     <View style={styles.iconBig}>
                         <Profile height={50} width={50}/>
