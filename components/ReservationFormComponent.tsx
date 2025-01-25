@@ -22,7 +22,6 @@ export default function ReservationFormComponent({route}) {
     utilisateurPromise.then((utilisateur) => {
         if (utilisateur !== null) {
             let utilisateurDto = JSON.parse(utilisateur) as Utilisateur;
-            console.log('utilisateur', utilisateurDto);
             setUtilisateurId(utilisateurDto.id);
         }
     })
@@ -56,7 +55,6 @@ export default function ReservationFormComponent({route}) {
             && formControlErrorsValue.email === undefined
             && formControlErrorsValue.nbrDeTicket === undefined;
         let reservation: Reservation = {...data, event_id: event.id, user_id: utilisateurId};
-        console.log("reservation", reservation);
         let placesRestantes = event.placesRestantes - +reservation.nbrDeTicket;
         let updatedEventAvecPlacesRestantes = {...event, placesRestantes: placesRestantes}
         if (formControl.formState.touchedFields && isFormValid) {
